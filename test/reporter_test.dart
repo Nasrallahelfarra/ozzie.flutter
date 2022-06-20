@@ -4,7 +4,7 @@ import 'package:ozzie/reporter.dart';
 
 void main() {
   final testFolder = "test_folder";
-  Reporter reporter;
+  Reporter? reporter;
 
   setUp(() async {
     reporter = Reporter();
@@ -21,7 +21,7 @@ void main() {
 
   test('generates HTML report on the given folder without performance reports',
       () async {
-    await reporter.generateHtmlReport(
+    await reporter!.generateHtmlReport(
       rootFolderName: testFolder,
       groupName: 'test',
     );
@@ -62,7 +62,7 @@ performance_metrics:
             .create(recursive: true);
     aJson.writeAsStringSync(fileContents);
     bJson.writeAsStringSync(fileContents);
-    await reporter.generateHtmlReport(
+    await reporter!.generateHtmlReport(
       rootFolderName: testFolder,
       groupName: 'test',
     );

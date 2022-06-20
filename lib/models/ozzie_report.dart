@@ -10,9 +10,9 @@ class OzzieReport {
   final PerformanceScore performanceScore;
 
   OzzieReport({
-    @required this.reportName,
-    @required this.screenshots,
-    @required this.performanceReports,
-    @required this.performanceScore,
+    required this.reportName,
+    required this.screenshots,
+    required this.performanceReports,
+    required this.performanceScore,
   });
 }

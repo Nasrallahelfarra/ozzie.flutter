@@ -19,8 +19,8 @@ class Ozzie {
 
   Ozzie._internal(
     this.driver, {
-    @required this.groupName,
-    @required this.shouldTakeScreenshots,
+    required this.groupName,
+    required this.shouldTakeScreenshots,
   }) : assert(driver != null);
 
   /// Build an [Ozzie] object with the given [FlutterDriver]. If a `groupName`
@@ -36,12 +36,12 @@ class Ozzie {
   /// Ozzie.initWith(driver, 'my_report') -> will group the screenshots taken under "my_report"
   /// ```
   factory Ozzie.initWith(
-    FlutterDriver driver, {
+    FlutterDriver ?driver, {
     String groupName = "default",
     bool shouldTakeScreenshots = true,
   }) =>
       Ozzie._internal(
-        driver,
+        driver!,
         groupName: groupName,
         shouldTakeScreenshots: shouldTakeScreenshots,
       );

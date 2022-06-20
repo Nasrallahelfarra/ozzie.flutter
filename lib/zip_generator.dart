@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:meta/meta.dart';
 import 'package:archive/archive_io.dart';
@@ -9,8 +9,8 @@ class ZipGenerator {
   /// It generates a ZIP file with the contents inside [groupFolderName], with
   /// the name `groupName.zip`.
   Future generateZipInFolder({
-    @required String groupFolderName,
-    @required String groupName,
+    required String groupFolderName,
+    required String groupName,
   }) async {
     await _deleteFile(File('$groupFolderName/$groupName.zip'));
     final directory = Directory(groupFolderName);
@@ -19,7 +19,7 @@ class ZipGenerator {
         .listSync(recursive: false, followLinks: false)
         .where((f) => f is File);
     zipEncoder.create('$groupFolderName/$groupName.zip');
-    imageFiles.forEach((imageFile) => zipEncoder.addFile(imageFile));
+    imageFiles.forEach((imageFile) => zipEncoder.addFile(imageFile as File));
     zipEncoder.close();
   }
 
@@ -34,7 +34,7 @@ class ZipGenerator {
         .where((d) => d is Directory)
         .toList();
     zipEncoder.create('$rootFolder/ozzie.zip');
-    directories.forEach((dir) => zipEncoder.addDirectory(dir));
+    directories.forEach((dir) => zipEncoder.addDirectory(dir as Directory));
     zipEncoder.close();
   }
 

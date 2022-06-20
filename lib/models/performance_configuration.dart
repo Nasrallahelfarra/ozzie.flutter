@@ -9,11 +9,11 @@ class PerformanceConfiguration {
   final FrameRateThreshold frameRasterizerRateThreshold;
 
   PerformanceConfiguration({
-    @required this.shouldFailBuildOnWarning,
-    @required this.shouldFailBuildOnError,
-    @required this.missedFramesThreshold,
-    @required this.frameBuildRateThreshold,
-    @required this.frameRasterizerRateThreshold,
+    required this.shouldFailBuildOnWarning,
+    required this.shouldFailBuildOnError,
+    required this.missedFramesThreshold,
+    required this.frameBuildRateThreshold,
+    required this.frameRasterizerRateThreshold,
   });
 }
 
@@ -23,8 +23,8 @@ class MissedFramesThreshold {
   final double warningPercentage;
 
   MissedFramesThreshold({
-    @required this.errorPercentage,
-    @required this.warningPercentage,
+    required this.errorPercentage,
+    required this.warningPercentage,
   });
 }
 
@@ -34,7 +34,7 @@ class FrameRateThreshold {
   final double warningTimeInMills;
 
   FrameRateThreshold({
-    @required this.errorTimeInMills,
-    @required this.warningTimeInMills,
+    required this.errorTimeInMills,
+    required this.warningTimeInMills,
   });
 }

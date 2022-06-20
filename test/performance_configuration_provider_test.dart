@@ -18,14 +18,14 @@ void main() {
 
     group('with an ozzie.yaml provided', () {
       group('and the file is empty', () {
-        File emptyFile;
+        File?emptyFile;
 
         setUp(() async {
           emptyFile = await File('ozzie.yaml').create(recursive: true);
         });
 
         tearDown(() async {
-          await emptyFile.delete(recursive: true);
+          await emptyFile!.delete(recursive: true);
         });
 
         test('returns the default configuration', () async {
@@ -60,11 +60,11 @@ void main() {
       });
 
       group('and the file has a YAML object', () {
-        File yamlFile;
+        File ?yamlFile;
 
         setUp(() async {
           yamlFile = await File('ozzie.yaml').create(recursive: true);
-          yamlFile.writeAsStringSync("""
+          yamlFile!.writeAsStringSync("""
 integration_test_expectations:
   should_fail_build_on_warning: true
   should_fail_build_on_error: true
@@ -82,7 +82,7 @@ performance_metrics:
         });
 
         tearDown(() async {
-          await yamlFile.delete(recursive: true);
+          await yamlFile!.delete(recursive: true);
         });
         test('returns the configuration defined in the file', () async {
           final config = await PerformanceConfigurationProvider.provide();

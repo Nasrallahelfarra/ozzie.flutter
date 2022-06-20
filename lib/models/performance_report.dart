@@ -9,14 +9,14 @@ class PerformanceReport {
   final String timelineSummaryReport;
   final String summaryRawContent;
   final TimelineSummaryReport summaryReportContent;
-  final PerformanceScore score;
+  final PerformanceScore? score;
 
   PerformanceReport({
-    @required this.testName,
-    @required this.timelineReport,
-    @required this.timelineSummaryReport,
-    @required this.summaryRawContent,
-    @required this.summaryReportContent,
-    @required this.score,
+    required this.testName,
+    required this.timelineReport,
+    required this.timelineSummaryReport,
+    required this.summaryRawContent,
+    required this.summaryReportContent,
+     this.score,
   });
 }

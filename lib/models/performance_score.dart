@@ -24,8 +24,8 @@ class PerformanceScore {
   final Score frameRasterizerRate;
 
   PerformanceScore({
-    @required this.missedFrames,
-    @required this.frameBuildRate,
-    @required this.frameRasterizerRate,
+    required this.missedFrames,
+    required this.frameBuildRate,
+    required this.frameRasterizerRate,
   });
 }

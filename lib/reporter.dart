@@ -19,8 +19,8 @@ class Reporter {
   /// The `groupName` is necessary to generate the ZIP files included in
   /// the HTML report.
   Future generateHtmlReport({
-    @required String rootFolderName,
-    @required String groupName,
+    required String rootFolderName,
+    required String groupName,
   }) async {
     final ozzieFiles = await _getOzzieReports(rootFolderName);
     final imageGallery = _buildOzzieReport(ozzieFiles);
@@ -49,7 +49,7 @@ class Reporter {
         .where((f) => (f is Directory))
         .map((f) => f as Directory)
         .toList();
-    var reports = List<OzzieReport>();
+    var reports = <OzzieReport>[];
     final scoreConfiguration = await PerformanceConfigurationProvider.provide();
     final performanceScorer = PerformanceScorer(scoreConfiguration);
     featureDirectories.forEach((featureDirectory) {
@@ -89,7 +89,7 @@ class Reporter {
         .where((d) => d.path.contains('profiling'))
         .map((d) => d as Directory);
     if (profileDirectories == null || profileDirectories.isEmpty) return [];
-    var reports = List<PerformanceReport>();
+    var reports = <PerformanceReport>[];
     final profileContents = profileDirectories.first
         .listSync(recursive: false, followLinks: false)
         .map((s) => s.path.replaceAll("$rootFolderName", ''));
@@ -108,7 +108,7 @@ class Reporter {
         timelineSummaryReport: r,
         summaryRawContent: rawContent,
         summaryReportContent: summary,
-        score: performanceScorer.scoreSummary(summary),
+        score: performanceScorer.scoreSummary(summary)!,
       );
       reports.add(report);
     });
@@ -148,9 +148,9 @@ class Reporter {
         </div>
         <div class="col-9">
           <div class="float-right">
-            ${_performanceBadge("Missed Frames", report.performanceScore?.missedFrames?.infoMessage, report.performanceScore?.missedFrames?.rating)}
-            ${_performanceBadge("Frame Build Rate", report.performanceScore?.frameBuildRate?.infoMessage, report.performanceScore?.frameBuildRate?.rating)}
-            ${_performanceBadge("Frame Rasterizer Rate", report.performanceScore?.frameRasterizerRate?.infoMessage, report.performanceScore?.frameRasterizerRate?.rating)}
+            ${_performanceBadge("Missed Frames", report.performanceScore!.missedFrames!.infoMessage, report!.performanceScore!.missedFrames!.rating!)}
+            ${_performanceBadge("Frame Build Rate", report.performanceScore!.frameBuildRate!.infoMessage, report.performanceScore!.frameBuildRate!.rating)}
+            ${_performanceBadge("Frame Rasterizer Rate", report.performanceScore!.frameRasterizerRate!.infoMessage, report.performanceScore!.frameRasterizerRate!.rating)}
             <a href="./${_displayName(report.reportName)}/${_displayName(report.reportName)}.zip" class="btn btn-outline-primary" download>
               Download Images
             </a>
@@ -220,8 +220,8 @@ class Reporter {
 
   String _buildSlideshow(
     List<String> images, {
-    @required String modalId,
-    @required String modalName,
+    required String modalId,
+    required String modalName,
   }) {
     return """
 <div class="modal fade" id="$modalId" tabIndex="-1" role="dialog" aria-labelledby="${modalId}Label" aria-hidden="true">
@@ -305,9 +305,9 @@ class Reporter {
 <a class="nav-link active" id="v-pills-${performanceReports[index].hashCode}-tab" data-toggle="pill" href="#v-pills-${performanceReports[index].hashCode}" role="tab" aria-controls="v-pills-${performanceReports[index].hashCode}" aria-selected="true">
   ${performanceReports[index].testName}
   <div>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.missedFrames.rating)}"><i class="fas fa-crop"></i></span>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.frameBuildRate.rating)}"><i class="fas fa-tools"></i></span>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.frameRasterizerRate.rating)}"><i class="fas fa-paint-roller"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.missedFrames.rating)}"><i class="fas fa-crop"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.frameBuildRate.rating)}"><i class="fas fa-tools"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.frameRasterizerRate.rating)}"><i class="fas fa-paint-roller"></i></span>
   </div>
 </a>
         """);
@@ -316,9 +316,9 @@ class Reporter {
 <a class="nav-link" id="v-pills-${performanceReports[index].hashCode}-tab" data-toggle="pill" href="#v-pills-${performanceReports[index].hashCode}" role="tab" aria-controls="v-pills-${performanceReports[index].hashCode}" aria-selected="true">
   ${performanceReports[index].testName} 
   <div>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.missedFrames.rating)}"><i class="fas fa-crop"></i></span>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.frameBuildRate.rating)}"><i class="fas fa-tools"></i></span>
-    <span class="badge badge-${_badgeDecorator(performanceReports[index].score.frameRasterizerRate.rating)}"><i class="fas fa-paint-roller"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.missedFrames.rating)}"><i class="fas fa-crop"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.frameBuildRate.rating)}"><i class="fas fa-tools"></i></span>
+    <span class="badge badge-${_badgeDecorator(performanceReports[index].score!.frameRasterizerRate.rating)}"><i class="fas fa-paint-roller"></i></span>
   </div>
 </a>
         """);
@@ -338,9 +338,9 @@ class Reporter {
   <a href="./${performanceReports[index].timelineReport}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true" download>Download Timeline Report</a>
 </p>
 <p>
-  ${_performanceBadge("Missed Frames", performanceReports[index].score?.missedFrames?.infoMessage, performanceReports[index].score?.missedFrames?.rating)}
-  ${_performanceBadge("Frame Build Rate", performanceReports[index].score?.frameBuildRate?.infoMessage, performanceReports[index].score?.frameBuildRate?.rating)}
-  ${_performanceBadge("Frame Rasterizer Rate", performanceReports[index].score?.frameRasterizerRate?.infoMessage, performanceReports[index].score?.frameRasterizerRate?.rating)}
+  ${_performanceBadge("Missed Frames", performanceReports[index].score!.missedFrames!.infoMessage, performanceReports[index].score!.missedFrames!.rating)}
+  ${_performanceBadge("Frame Build Rate", performanceReports[index].score!.frameBuildRate!.infoMessage, performanceReports[index].score!.frameBuildRate!.rating)}
+  ${_performanceBadge("Frame Rasterizer Rate", performanceReports[index].score!.frameRasterizerRate!.infoMessage, performanceReports[index].score!.frameRasterizerRate!.rating)}
 </p>
 <p>
   <pre>

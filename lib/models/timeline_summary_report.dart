@@ -19,19 +19,19 @@ class TimelineSummaryReport {
   final List<int> frameRasterizerTimes;
 
   TimelineSummaryReport({
-    @required this.averageFrameBuildTimeMillis,
-    @required this.th90PercentileFrameBuildTimeMillis,
-    @required this.th99PercentileFrameBuildTimeMillis,
-    @required this.worstFrameBuildTimeMillis,
-    @required this.missedFrameBuildBudgetCount,
-    @required this.averageFrameRasterizerTimeMillis,
-    @required this.th90percentileFrameRasterizerTimeMillis,
-    @required this.th99percentileFrameRasterizerTimeMillis,
-    @required this.worstFrameRasterizerTimeMillis,
-    @required this.missedFrameRasterizerBudgetCount,
-    @required this.frameCount,
-    @required this.frameBuildTimes,
-    @required this.frameRasterizerTimes,
+    required this.averageFrameBuildTimeMillis,
+    required this.th90PercentileFrameBuildTimeMillis,
+    required this.th99PercentileFrameBuildTimeMillis,
+    required this.worstFrameBuildTimeMillis,
+    required this.missedFrameBuildBudgetCount,
+    required this.averageFrameRasterizerTimeMillis,
+    required this.th90percentileFrameRasterizerTimeMillis,
+    required this.th99percentileFrameRasterizerTimeMillis,
+    required this.worstFrameRasterizerTimeMillis,
+    required this.missedFrameRasterizerBudgetCount,
+    required this.frameCount,
+    required this.frameBuildTimes,
+    required this.frameRasterizerTimes,
   });
 
   /// Given a JSON object, it will parse it to a [TimelineSummaryReport]

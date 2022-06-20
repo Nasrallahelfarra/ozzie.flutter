@@ -4,7 +4,7 @@ import 'package:ozzie/zip_generator.dart';
 
 void main() {
   final testFolder = "test_folder";
-  ZipGenerator zipGenerator;
+  ZipGenerator? zipGenerator;
 
   setUp(() async {
     zipGenerator = ZipGenerator();
@@ -19,7 +19,7 @@ void main() {
   });
 
   test('generateZipInFolder', () async {
-    await zipGenerator.generateZipInFolder(
+    await zipGenerator!.generateZipInFolder(
       groupFolderName: testFolder,
       groupName: 'testFile',
     );
@@ -28,7 +28,7 @@ void main() {
   });
 
   test('generateZipWithAllGroups', () async {
-    await zipGenerator.generateZipWithAllGroups(rootFolder: testFolder);
+    await zipGenerator!.generateZipWithAllGroups(rootFolder: testFolder);
     final isZipGenerated = await File('$testFolder/ozzie.zip').exists();
     expect(isZipGenerated, isTrue);
   });

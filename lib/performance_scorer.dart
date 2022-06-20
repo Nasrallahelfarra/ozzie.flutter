@@ -20,8 +20,8 @@ class PerformanceScorer {
     final frameBuildRateScore = scoreFrameBuildRate(reports);
     final frameRasterizerRateScore = scoreFrameRasterizerRate(reports);
     final shouldFailBuildOnWarning = _shouldFailBuildOnWarning(
-      missedFramesScore: missedFramesScore,
-      frameBuildRateScore: frameBuildRateScore,
+      missedFramesScore: missedFramesScore!,
+      frameBuildRateScore: frameBuildRateScore!,
       frameRasterizerRateScore: frameBuildRateScore,
     );
     final shouldFailBuildOnError = _shouldFailBuildOnError(
@@ -38,14 +38,14 @@ class PerformanceScorer {
       throw FailBuildException.onWarning(reportName);
     if (shouldFailBuildOnError) throw FailBuildException.onError(reportName);
     return PerformanceScore(
-      frameBuildRate: frameBuildRateScore,
-      missedFrames: missedFramesScore,
-      frameRasterizerRate: frameRasterizerRateScore,
+      frameBuildRate: frameBuildRateScore!,
+      missedFrames: missedFramesScore!,
+      frameRasterizerRate: frameRasterizerRateScore!,
     );
   }
 
   /// It gives a [Score] about missed frames for the given `reports`
-  Score scoreMissedFrames(List<PerformanceReport> reports) {
+  Score ?scoreMissedFrames(List<PerformanceReport> reports) {
     if (reports == null || reports.isEmpty) return null;
     final totalFrames = reports
         .map((r) => r.summaryReportContent.frameCount)
@@ -57,7 +57,7 @@ class PerformanceScorer {
   }
 
   /// It gives a [Score] about the frame build rate for the given `reports`
-  Score scoreFrameBuildRate(List<PerformanceReport> reports) {
+  Score ?scoreFrameBuildRate(List<PerformanceReport> reports) {
     if (reports == null || reports.isEmpty) return null;
     final totalOfAverageBuildTimes = reports
         .map((r) => r.summaryReportContent.averageFrameBuildTimeMillis)
@@ -67,7 +67,7 @@ class PerformanceScorer {
   }
 
   /// It gives a [Score] about the frame rasterizer rate for the given `reports`
-  Score scoreFrameRasterizerRate(List<PerformanceReport> reports) {
+  Score ?scoreFrameRasterizerRate(List<PerformanceReport> reports) {
     if (reports == null || reports.isEmpty) return null;
     final totalOfAverageRasterizerTimes = reports
         .map((r) => r.summaryReportContent.averageFrameRasterizerTimeMillis)
@@ -80,20 +80,20 @@ class PerformanceScorer {
   }
 
   /// It gives a [PerformanceScore] for the given `report`
-  PerformanceScore scoreSummary(TimelineSummaryReport report) {
+  PerformanceScore ?scoreSummary(TimelineSummaryReport report) {
     if (report == null) return null;
     final missedFramesScore = scoreMissedFramesOnSummary(report);
     final frameBuildRateScore = scoreFrameBuildRateOnSummary(report);
     final frameRasterizerRateScore = scoreFrameRasterizerRateOnSummary(report);
     return PerformanceScore(
-      frameBuildRate: frameBuildRateScore,
-      missedFrames: missedFramesScore,
-      frameRasterizerRate: frameRasterizerRateScore,
+      frameBuildRate: frameBuildRateScore!,
+      missedFrames: missedFramesScore!,
+      frameRasterizerRate: frameRasterizerRateScore!,
     );
   }
 
   /// It gives a [Score] about missed frames for the given `report`
-  Score scoreMissedFramesOnSummary(TimelineSummaryReport report) {
+  Score ?scoreMissedFramesOnSummary(TimelineSummaryReport report) {
     if (report == null) return null;
     final totalFrames = report.frameCount;
     final missedFrames = report.missedFrameBuildBudgetCount;
@@ -101,13 +101,13 @@ class PerformanceScorer {
   }
 
   /// It gives a [Score] about the frame build rate for the given `report`
-  Score scoreFrameBuildRateOnSummary(TimelineSummaryReport report) {
+  Score ?scoreFrameBuildRateOnSummary(TimelineSummaryReport report) {
     if (report == null) return null;
     return _scoreFrameBuildRate(1, report.averageFrameBuildTimeMillis);
   }
 
   /// It gives a [Score] about the frame rasterizer rate for the given `reports`
-  Score scoreFrameRasterizerRateOnSummary(
+  Score? scoreFrameRasterizerRateOnSummary(
     TimelineSummaryReport report,
   ) {
     if (report == null) return null;
@@ -177,9 +177,9 @@ class PerformanceScorer {
   }
 
   bool _shouldFailBuildOnWarning({
-    @required Score missedFramesScore,
-    @required Score frameBuildRateScore,
-    @required Score frameRasterizerRateScore,
+    required Score missedFramesScore,
+    required Score frameBuildRateScore,
+    required Score frameRasterizerRateScore,
   }) {
     return configuration.shouldFailBuildOnWarning &&
         _featureHasWarnings(
@@ -190,9 +190,9 @@ class PerformanceScorer {
   }
 
   bool _shouldFailBuildOnError({
-    @required Score missedFramesScore,
-    @required Score frameBuildRateScore,
-    @required Score frameRasterizerRateScore,
+    required Score missedFramesScore,
+    required Score frameBuildRateScore,
+    required Score frameRasterizerRateScore,
   }) {
     return configuration.shouldFailBuildOnError &&
         _featureHasError(
@@ -203,9 +203,9 @@ class PerformanceScorer {
   }
 
   bool _featureHasWarnings({
-    @required Score missedFramesScore,
-    @required Score frameBuildRateScore,
-    @required Score frameRasterizerRateScore,
+    required Score missedFramesScore,
+    required Score frameBuildRateScore,
+    required Score frameRasterizerRateScore,
   }) {
     return missedFramesScore?.rating == Rating.warning ||
         frameBuildRateScore?.rating == Rating.warning ||
@@ -213,9 +213,9 @@ class PerformanceScorer {
   }
 
   bool _featureHasError({
-    @required Score missedFramesScore,
-    @required Score frameBuildRateScore,
-    @required Score frameRasterizerRateScore,
+    required Score missedFramesScore,
+    required Score frameBuildRateScore,
+    required Score frameRasterizerRateScore,
   }) {
     return missedFramesScore?.rating == Rating.failure ||
         frameBuildRateScore?.rating == Rating.failure ||
